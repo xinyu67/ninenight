@@ -7,14 +7,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
-using static ninenight.Services.UUID;
 
 namespace ninenight.Controllers
 {
+    [ApiController]
+    [Route("api/[UserController]")]
     public class UserController : Controller
     {
         
-        // GET: User
         private readonly UserDBService userService = new UserDBService();
         private readonly MailDBService mailService = new MailDBService();
 
@@ -22,6 +22,8 @@ namespace ninenight.Controllers
         {
             return View();
         }
+
+
         #region 註冊
         // 註冊一開始顯示頁面
         public ActionResult Register()
@@ -35,6 +37,7 @@ namespace ninenight.Controllers
         }
         // 傳入註冊資料的 Action
         [HttpGet]
+        [Route("Register")]
         // 設定此 Action 只接受頁面 POST 資料傳入
         public ActionResult Register(UserRegisterViewModels RegisterMember)
         {
@@ -90,8 +93,6 @@ namespace ninenight.Controllers
 
         }
 
-
-
         // 接收驗證信連結傳進來的 Action
         public ActionResult EmailValidate(string user_account, string user_authcode)
         {
@@ -101,6 +102,9 @@ namespace ninenight.Controllers
             return View();
         }
         #endregion
+
+
+
         #region 登入
         // 登入一開始載入畫面
         public ActionResult Login()
@@ -112,6 +116,7 @@ namespace ninenight.Controllers
         }
         // 傳入登入資料的 Action
         [HttpPost] // 設定此 Action 只接受頁面 POST 資料傳入
+        [Route("Login")]
         public ActionResult Login(UserLoginViewModels LoginMember)
         {
             // 使用 Service 裡的方法來驗證登入的帳號密碼
@@ -161,6 +166,7 @@ namespace ninenight.Controllers
         //修改密碼傳入資料 Action
         [Authorize] //設定此 Action 須登入
         [HttpPost] //設定此 Action 接受頁面 POST 資料傳入
+        [Route("ChangePassword")]
         public ActionResult ChangePassword(ChangePasswordViewModels ChangeData)
         {
             //判斷頁面資料是否都經過驗證
